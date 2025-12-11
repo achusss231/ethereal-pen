@@ -11,8 +11,11 @@ import {
   FileText, 
   GraduationCap, 
   Megaphone,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from "lucide-react";
+import creativeWriting from "@/assets/creative-writing.jpg";
+import digitalContent from "@/assets/digital-content.jpg";
 
 const services = [
   {
@@ -85,6 +88,24 @@ const Services = () => {
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
+        {/* Decorative Images */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 0.15, x: 0 }}
+          transition={{ duration: 1 }}
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 hidden lg:block"
+        >
+          <img src={creativeWriting} alt="" className="w-full h-full object-cover rounded-full blur-sm" />
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 0.15, x: 0 }}
+          transition={{ duration: 1 }}
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 hidden lg:block"
+        >
+          <img src={digitalContent} alt="" className="w-full h-full object-cover rounded-full blur-sm" />
+        </motion.div>
+        
         <div className="container mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -92,9 +113,15 @@ const Services = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-block text-primary font-medium text-sm tracking-wider uppercase mb-4">
-              What I Offer
-            </span>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">What I Offer</span>
+            </motion.div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
               Premium <span className="text-gradient">Services</span>
             </h1>

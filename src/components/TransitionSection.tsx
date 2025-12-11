@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import creativeWriting from "@/assets/creative-writing.jpg";
 
 export const TransitionSection = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -13,11 +14,12 @@ export const TransitionSection = () => {
   const y3 = useTransform(scrollYProgress, [0, 1], [50, -150]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 0.8]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 0.9]);
 
   return (
     <div
       ref={ref}
-      className="relative h-[40vh] overflow-hidden bg-gradient-to-b from-background via-background-secondary to-background"
+      className="relative h-[50vh] overflow-hidden bg-gradient-to-b from-background via-background-secondary to-background"
     >
       {/* Curved SVG Divider */}
       <div className="absolute top-0 left-0 w-full">
@@ -35,18 +37,32 @@ export const TransitionSection = () => {
         </svg>
       </div>
 
+      {/* Background Image with Parallax */}
+      <motion.div
+        style={{ scale: imageScale, opacity }}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden opacity-10">
+          <img 
+            src={creativeWriting} 
+            alt="" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </motion.div>
+
       {/* Floating Elements */}
       <motion.div
         style={{ y: y1, opacity }}
-        className="absolute top-1/4 left-[10%] w-20 h-20 rounded-full bg-primary/10 blur-xl"
+        className="absolute top-1/4 left-[10%] w-24 h-24 rounded-full bg-gradient-to-br from-primary/15 to-transparent blur-2xl"
       />
       <motion.div
         style={{ y: y2, opacity }}
-        className="absolute top-1/2 right-[15%] w-32 h-32 rounded-full bg-accent/10 blur-2xl"
+        className="absolute top-1/2 right-[15%] w-40 h-40 rounded-full bg-gradient-to-br from-accent/15 to-transparent blur-3xl"
       />
       <motion.div
         style={{ y: y3, opacity }}
-        className="absolute bottom-1/4 left-[60%] w-24 h-24 rounded-full bg-primary/5 blur-xl"
+        className="absolute bottom-1/4 left-[60%] w-32 h-32 rounded-full bg-gradient-to-br from-primary/10 to-transparent blur-2xl"
       />
 
       {/* Center Element */}
@@ -54,22 +70,32 @@ export const TransitionSection = () => {
         style={{ scale, opacity }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
-        <div className="w-40 h-40 rounded-full border border-primary/20 flex items-center justify-center">
-          <div className="w-28 h-28 rounded-full border border-primary/30 flex items-center justify-center">
+        <div className="w-48 h-48 rounded-full border border-primary/20 flex items-center justify-center backdrop-blur-sm">
+          <div className="w-32 h-32 rounded-full border border-primary/30 flex items-center justify-center">
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20"
+              className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 shadow-lg"
             />
           </div>
         </div>
       </motion.div>
 
+      {/* Premium Decorative Lines */}
+      <motion.div 
+        style={{ opacity }}
+        className="absolute top-1/3 left-0 w-1/4 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"
+      />
+      <motion.div 
+        style={{ opacity }}
+        className="absolute bottom-1/3 right-0 w-1/4 h-px bg-gradient-to-l from-transparent via-accent/20 to-transparent"
+      />
+
       {/* Small Floating Shapes */}
       <motion.div
         animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[30%] left-[25%] w-4 h-4 rounded-full bg-primary/30"
+        className="absolute top-[30%] left-[25%] w-4 h-4 rounded-full bg-primary/30 shadow-glow"
       />
       <motion.div
         animate={{ y: [0, 15, 0], rotate: [0, -10, 0] }}

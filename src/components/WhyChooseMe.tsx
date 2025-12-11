@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Star,
   Clock,
@@ -197,16 +198,19 @@ export const WhyChooseMe = () => {
                   ))}
                 </div>
 
-                <motion.a
-                  href="#contact"
-                  onClick={() => setSelectedReason(null)}
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="btn-primary inline-flex items-center gap-2 mt-8"
                 >
-                  Get Started
-                  <ArrowRight className="w-4 h-4" />
-                </motion.a>
+                  <Link
+                    to="/contact"
+                    onClick={() => setSelectedReason(null)}
+                    className="btn-primary inline-flex items-center gap-2 mt-8"
+                  >
+                    Get Started
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
           </>

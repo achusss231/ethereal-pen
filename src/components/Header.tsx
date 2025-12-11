@@ -10,20 +10,17 @@ const navItems = [
     href: "/services",
     hasDropdown: true,
     subItems: [
-      { name: "Content Writing", href: "/services/content-writing" },
-      { name: "Web Development", href: "/services/web-development" },
-      { name: "Digital Marketing", href: "/services/digital-marketing" },
-      { name: "Branding", href: "/services/branding" },
-      { name: "SEO", href: "/services/seo" },
-      { name: "Resume Writing", href: "/services/resume-writing" },
-      { name: "SOP Writing", href: "/services/sop-writing" },
-      { name: "Copywriting", href: "/services/copywriting" },
+      { name: "Content Writing", href: "/services/content-writing", icon: "✍️" },
+      { name: "Web Development", href: "/services/web-development", icon: "💻" },
+      { name: "Digital Marketing", href: "/services/digital-marketing", icon: "📈" },
+      { name: "Branding", href: "/services/branding", icon: "🎨" },
+      { name: "SEO", href: "/services/seo", icon: "🔍" },
+      { name: "Resume Writing", href: "/services/resume-writing", icon: "📄" },
+      { name: "SOP Writing", href: "/services/sop-writing", icon: "📝" },
+      { name: "Copywriting", href: "/services/copywriting", icon: "💡" },
     ]
   },
   { name: "About", href: "/about" },
-  { name: "Vision", href: "/vision" },
-  { name: "Mission", href: "/mission" },
-  { name: "Reviews", href: "/#reviews" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -98,32 +95,41 @@ export const Header = () => {
                       <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? "rotate-180" : ""}`} />
                     </Link>
                     
-                    {/* Dropdown Menu */}
+                    {/* Premium Dropdown Menu */}
                     <AnimatePresence>
                       {openDropdown === item.name && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-56 bg-background rounded-2xl shadow-xl border border-border/50 overflow-hidden z-50"
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          className="absolute top-full left-0 mt-3 w-72 bg-background/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/30 overflow-hidden z-50"
+                          style={{ boxShadow: "0 25px 80px -12px rgba(0, 0, 0, 0.15)" }}
                         >
-                          <div className="py-2">
-                            {item.subItems?.map((subItem, subIndex) => (
-                              <motion.div
-                                key={subItem.name}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: subIndex * 0.05 }}
-                              >
-                                <Link
-                                  to={subItem.href}
-                                  className="block px-4 py-3 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                          <div className="p-3">
+                            <div className="grid gap-1">
+                              {item.subItems?.map((subItem, subIndex) => (
+                                <motion.div
+                                  key={subItem.name}
+                                  initial={{ opacity: 0, x: -15 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: subIndex * 0.04, duration: 0.2 }}
                                 >
-                                  {subItem.name}
-                                </Link>
-                              </motion.div>
-                            ))}
+                                  <Link
+                                    to={subItem.href}
+                                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-foreground/80 hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group"
+                                  >
+                                    <span className="text-lg opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">{subItem.icon}</span>
+                                    <span className="font-medium">{subItem.name}</span>
+                                  </Link>
+                                </motion.div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="px-4 py-3 bg-gradient-to-r from-primary/5 to-transparent border-t border-border/20">
+                            <Link to="/services" className="text-xs font-medium text-primary hover:underline">
+                              View all services →
+                            </Link>
                           </div>
                         </motion.div>
                       )}

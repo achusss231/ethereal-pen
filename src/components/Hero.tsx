@@ -1,6 +1,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles, PenTool, FileText } from "lucide-react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import contentWritingHero from "@/assets/content-writing-hero.jpg";
 
 export const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -34,6 +36,20 @@ export const Hero = () => {
           style={{ y }}
         />
         
+        {/* Hero Image Background - subtle */}
+        <motion.div 
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-20 hidden xl:block"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 1.5, delay: 0.5 }}
+        >
+          <img 
+            src={contentWritingHero} 
+            alt="Content writing" 
+            className="w-full h-full object-cover rounded-full blur-sm"
+          />
+        </motion.div>
+        
         {/* Decorative Shapes */}
         <motion.div
           className="absolute top-32 right-20 w-4 h-4 rounded-full bg-primary/40 floating"
@@ -50,6 +66,10 @@ export const Hero = () => {
           animate={{ scale: [1, 1.5, 1] }}
           transition={{ duration: 2.5, repeat: Infinity }}
         />
+        
+        {/* Premium Decorative Lines */}
+        <div className="absolute top-1/4 left-0 w-32 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        <div className="absolute bottom-1/4 right-0 w-32 h-px bg-gradient-to-l from-transparent via-accent/30 to-transparent" />
       </div>
 
       {/* Grid Pattern */}
@@ -98,23 +118,23 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <motion.a
-              href="#contact"
-              className="btn-primary flex items-center gap-2 group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Hire Me
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </motion.a>
-            <motion.a
-              href="#services"
-              className="btn-outline flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              View Services
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/contact"
+                className="btn-primary flex items-center gap-2 group"
+              >
+                Hire Me
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/services"
+                className="btn-outline flex items-center gap-2"
+              >
+                View Services
+              </Link>
+            </motion.div>
           </motion.div>
 
           {/* Stats */}
