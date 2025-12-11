@@ -15,8 +15,12 @@ import {
   CheckCircle,
   Clock,
   Star,
-  ArrowLeft
+  ArrowLeft,
+  Sparkles
 } from "lucide-react";
+import contentWritingHero from "@/assets/content-writing-hero.jpg";
+import creativeWriting from "@/assets/creative-writing.jpg";
+import digitalContent from "@/assets/digital-content.jpg";
 
 const servicesData: Record<string, {
   icon: typeof PenTool;
@@ -287,6 +291,20 @@ const ServiceDetail = () => {
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
+        {/* Decorative Image */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 0.12, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 hidden xl:block"
+        >
+          <img 
+            src={slug?.includes('content') || slug?.includes('copywriting') || slug?.includes('sop') ? contentWritingHero : slug?.includes('digital') || slug?.includes('seo') ? digitalContent : creativeWriting} 
+            alt="" 
+            className="w-full h-full object-cover rounded-full blur-sm" 
+          />
+        </motion.div>
+        
         <div className="container mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -295,16 +313,31 @@ const ServiceDetail = () => {
           >
             <Link 
               to="/services" 
-              className="inline-flex items-center gap-2 text-foreground-muted hover:text-primary transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-foreground-muted hover:text-primary transition-colors mb-8 group"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Services
             </Link>
             
-            <div className="flex items-start gap-6 mb-6">
-              <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Icon className="w-10 h-10 text-primary" />
-              </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Premium Service</span>
+            </motion.div>
+            
+            <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center flex-shrink-0 shadow-lg"
+              >
+                <Icon className="w-10 h-10 text-primary-foreground" />
+              </motion.div>
               <div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-4 leading-tight">
                   {service.title}
