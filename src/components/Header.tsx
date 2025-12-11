@@ -1,19 +1,38 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "About", href: "#about" },
-  { name: "Reviews", href: "#reviews" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { 
+    name: "Services", 
+    href: "/services",
+    hasDropdown: true,
+    subItems: [
+      { name: "Content Writing", href: "/services/content-writing" },
+      { name: "Web Development", href: "/services/web-development" },
+      { name: "Digital Marketing", href: "/services/digital-marketing" },
+      { name: "Branding", href: "/services/branding" },
+      { name: "SEO", href: "/services/seo" },
+      { name: "Resume Writing", href: "/services/resume-writing" },
+      { name: "SOP Writing", href: "/services/sop-writing" },
+      { name: "Copywriting", href: "/services/copywriting" },
+    ]
+  },
+  { name: "About", href: "/about" },
+  { name: "Vision", href: "/vision" },
+  { name: "Mission", href: "/mission" },
+  { name: "Reviews", href: "/#reviews" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +42,11 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    return location.pathname.startsWith(href);
+  };
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -30,61 +54,111 @@ export const Header = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-xl shadow-md py-4"
-          : "bg-transparent py-6"
+          ? "bg-background/95 backdrop-blur-xl shadow-lg py-3"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 lg:px-20">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            className="flex items-center gap-3"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-display font-bold text-xl">W</span>
-            </div>
-            <span className="font-display font-semibold text-xl text-foreground">
-              WriteElite
-            </span>
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Link to="/" className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center shadow-md">
+                <span className="text-primary-foreground font-display font-bold text-xl">W</span>
+              </div>
+              <span className="font-display font-bold text-xl text-foreground tracking-tight">
+                WriteElite
+              </span>
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden lg:flex items-center gap-1">
             {navItems.map((item, index) => (
               <motion.li
                 key={item.name}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.4 }}
+                className="relative"
+                onMouseEnter={() => item.hasDropdown && setOpenDropdown(item.name)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                <a
-                  href={item.href}
-                  className="text-foreground/70 hover:text-primary transition-colors duration-300 text-sm font-medium relative group"
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                </a>
+                {item.hasDropdown ? (
+                  <div className="relative">
+                    <Link
+                      to={item.href}
+                      className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        isActive(item.href)
+                          ? "text-primary bg-primary/5"
+                          : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                      }`}
+                    >
+                      {item.name}
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? "rotate-180" : ""}`} />
+                    </Link>
+                    
+                    {/* Dropdown Menu */}
+                    <AnimatePresence>
+                      {openDropdown === item.name && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-56 bg-background rounded-2xl shadow-xl border border-border/50 overflow-hidden z-50"
+                        >
+                          <div className="py-2">
+                            {item.subItems?.map((subItem, subIndex) => (
+                              <motion.div
+                                key={subItem.name}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: subIndex * 0.05 }}
+                              >
+                                <Link
+                                  to={subItem.href}
+                                  className="block px-4 py-3 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                                >
+                                  {subItem.name}
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 block ${
+                      isActive(item.href)
+                        ? "text-primary bg-primary/5"
+                        : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </motion.li>
             ))}
           </ul>
 
           {/* CTA Button */}
-          <motion.a
-            href="#contact"
-            className="hidden md:block btn-primary text-sm py-3 px-6"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started
-          </motion.a>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/contact"
+              className="hidden lg:block btn-primary text-sm py-3 px-7 shadow-md hover:shadow-lg"
+            >
+              Get Started
+            </Link>
+          </motion.div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-foreground"
+            className="lg:hidden p-2 text-foreground rounded-lg hover:bg-muted transition-colors"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -99,9 +173,9 @@ export const Header = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border"
+            className="lg:hidden bg-background/98 backdrop-blur-xl border-t border-border"
           >
-            <ul className="container mx-auto px-6 py-6 space-y-4">
+            <ul className="container mx-auto px-6 py-6 space-y-1">
               {navItems.map((item, index) => (
                 <motion.li
                   key={item.name}
@@ -109,27 +183,60 @@ export const Header = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <a
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-foreground/80 hover:text-primary transition-colors py-2 text-lg font-medium"
-                  >
-                    {item.name}
-                  </a>
+                  {item.hasDropdown ? (
+                    <div>
+                      <button
+                        onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                        className="w-full flex items-center justify-between text-foreground/80 hover:text-primary transition-colors py-3 text-lg font-medium"
+                      >
+                        {item.name}
+                        <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${mobileServicesOpen ? "rotate-180" : ""}`} />
+                      </button>
+                      <AnimatePresence>
+                        {mobileServicesOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-4 space-y-1 overflow-hidden"
+                          >
+                            {item.subItems?.map((subItem) => (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="block text-foreground/70 hover:text-primary transition-colors py-2 text-base"
+                              >
+                                {subItem.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block text-foreground/80 hover:text-primary transition-colors py-3 text-lg font-medium"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
               <motion.li
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.35 }}
               >
-                <a
-                  href="#contact"
+                <Link
+                  to="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block btn-primary text-center mt-4"
                 >
                   Get Started
-                </a>
+                </Link>
               </motion.li>
             </ul>
           </motion.div>
