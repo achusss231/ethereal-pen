@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles, PenTool, FileText } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import contentWritingHero from "@/assets/content-writing-hero.jpg";
+import contentWriting3d from "@/assets/3d-content-writing.png";
 
 export const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -36,20 +36,6 @@ export const Hero = () => {
           style={{ y }}
         />
         
-        {/* Hero Image Background - subtle */}
-        <motion.div 
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-20 hidden xl:block"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.15, scale: 1 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        >
-          <img 
-            src={contentWritingHero} 
-            alt="Content writing" 
-            className="w-full h-full object-cover rounded-full blur-sm"
-          />
-        </motion.div>
-        
         {/* Decorative Shapes */}
         <motion.div
           className="absolute top-32 right-20 w-4 h-4 rounded-full bg-primary/40 floating"
@@ -76,135 +62,155 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-grid opacity-30" />
 
       <motion.div style={{ opacity }} className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8"
-          >
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Premium Writing Services</span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground leading-tight mb-6"
-          >
-            Professional Writing{" "}
-            <br />
-            <span className="text-gradient">That Speaks for You</span>
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-foreground-muted max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            Expert in Content Writing, Resume Creation, SOP Writing & Academic 
-            Communication. Transform your ideas into powerful, polished words.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to="/contact"
-                className="btn-primary flex items-center gap-2 group"
-              >
-                Hire Me
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+          {/* Content */}
+          <div className="text-center lg:text-left">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-8"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Premium Writing Services</span>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                to="/services"
-                className="btn-outline flex items-center gap-2"
-              >
-                View Services
-              </Link>
-            </motion.div>
-          </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-16 mt-16"
-          >
-            {[
-              { value: "500+", label: "Projects Completed" },
-              { value: "100%", label: "Client Satisfaction" },
-              { value: "5+", label: "Years Experience" },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="text-center"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="text-3xl md:text-4xl font-display font-bold text-foreground mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-foreground-muted">{stat.label}</div>
+            {/* Main Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-foreground leading-tight mb-6"
+            >
+              Professional Writing{" "}
+              <span className="text-gradient">That Speaks for You</span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-lg md:text-xl text-foreground-muted max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed"
+            >
+              Expert in Content Writing, Resume Creation, SOP Writing & Academic 
+              Communication. Transform your ideas into powerful, polished words.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/contact"
+                  className="btn-primary flex items-center gap-2 group"
+                >
+                  Hire Me
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </motion.div>
-            ))}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/services"
+                  className="btn-outline flex items-center gap-2"
+                >
+                  View Services
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-8 md:gap-12 mt-12"
+            >
+              {[
+                { value: "500+", label: "Projects Completed" },
+                { value: "100%", label: "Client Satisfaction" },
+                { value: "5+", label: "Years Experience" },
+              ].map((stat) => (
+                <motion.div
+                  key={stat.label}
+                  className="text-center lg:text-left"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="text-2xl md:text-3xl font-display font-bold text-foreground mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-foreground-muted">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* 3D Illustration */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: 50 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="relative hidden lg:block"
+          >
+            <div className="relative">
+              <motion.img
+                src={contentWriting3d}
+                alt="Professional content writing"
+                className="w-full max-w-lg mx-auto drop-shadow-2xl"
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              {/* Floating Cards */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="absolute -right-4 top-1/4"
+              >
+                <motion.div
+                  className="bg-card/90 backdrop-blur-sm border border-border p-4 rounded-xl shadow-lg flex items-center gap-3"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <PenTool className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">Content Writing</div>
+                    <div className="text-xs text-foreground-muted">Premium Quality</div>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                className="absolute -left-4 bottom-1/4"
+              >
+                <motion.div
+                  className="bg-card/90 backdrop-blur-sm border border-border p-4 rounded-xl shadow-lg flex items-center gap-3"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">Resume Writing</div>
+                    <div className="text-xs text-foreground-muted">ATS-Optimized</div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
-      </motion.div>
-
-      {/* Floating Cards */}
-      <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.6 }}
-        className="absolute right-8 top-1/3 hidden xl:block"
-      >
-        <motion.div
-          className="glass-card p-4 flex items-center gap-3"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-            <PenTool className="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-foreground">Content Writing</div>
-            <div className="text-xs text-foreground-muted">Premium Quality</div>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.8 }}
-        className="absolute left-8 bottom-1/3 hidden xl:block"
-      >
-        <motion.div
-          className="glass-card p-4 flex items-center gap-3"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-            <FileText className="w-5 h-5 text-accent" />
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-foreground">Resume Writing</div>
-            <div className="text-xs text-foreground-muted">ATS-Optimized</div>
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Scroll Indicator */}
