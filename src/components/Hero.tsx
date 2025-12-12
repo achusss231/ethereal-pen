@@ -1,70 +1,91 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, PenTool, FileText } from "lucide-react";
-import { useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import contentWriting3d from "@/assets/3d-content-writing.png";
+import hero3dPencil from "@/assets/hero-3d-pencil.png";
 
 export const Hero = () => {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <section
-      ref={ref}
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
       style={{ background: "var(--gradient-hero)" }}
     >
-      {/* Floating Background Elements */}
+      {/* Soft Background Gradient - No floating shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/5 blur-3xl floating"
-          style={{ y }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-accent/5 blur-3xl floating-delayed"
-          style={{ y }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-radial from-primary/3 to-transparent blur-3xl"
-          style={{ y }}
-        />
-        
-        {/* Decorative Shapes */}
-        <motion.div
-          className="absolute top-32 right-20 w-4 h-4 rounded-full bg-primary/40 floating"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-40 left-20 w-6 h-6 rounded-full bg-accent/30 floating-slow"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-primary/50 floating-delayed"
-          animate={{ scale: [1, 1.5, 1] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-        />
-        
-        {/* Premium Decorative Lines */}
-        <div className="absolute top-1/4 left-0 w-32 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="absolute bottom-1/4 right-0 w-32 h-px bg-gradient-to-l from-transparent via-accent/30 to-transparent" />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/3 blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-accent/3 blur-[120px]" />
       </div>
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
+      {/* Subtle Grid Pattern */}
+      <div className="absolute inset-0 bg-grid opacity-20" />
 
-      <motion.div style={{ opacity }} className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
-          {/* Content */}
-          <div className="text-center lg:text-left">
+          {/* Hero Illustration - Left aligned on desktop */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative order-2 lg:order-1 flex justify-center lg:justify-start"
+          >
+            <div className="relative w-full max-w-lg">
+              {/* Skeleton placeholder */}
+              {!imageLoaded && (
+                <div className="lazy-skeleton w-full aspect-[16/10] rounded-2xl" />
+              )}
+              
+              <motion.img
+                src={hero3dPencil}
+                alt="Professional content writing - 3D illustration of creative writing"
+                onLoad={() => setImageLoaded(true)}
+                initial={{ opacity: 0, x: -24, scale: 0.995 }}
+                animate={imageLoaded ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -24, scale: 0.995 }}
+                transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                className="w-full drop-shadow-2xl"
+              />
+
+              {/* Floating Cards - Minimal, no animated circles */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="absolute -right-4 top-1/4 hidden md:block"
+              >
+                <div className="bg-card border border-border p-4 rounded-xl shadow-lg flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <PenTool className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">Content Writing</div>
+                    <div className="text-xs text-foreground-muted">Premium Quality</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="absolute -left-4 bottom-1/4 hidden md:block"
+              >
+                <div className="bg-card border border-border p-4 rounded-xl shadow-lg flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">Resume Writing</div>
+                    <div className="text-xs text-foreground-muted">ATS-Optimized</div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Content - Right aligned on desktop */}
+          <div className="text-center lg:text-left order-1 lg:order-2">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -82,6 +103,7 @@ export const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold text-foreground leading-tight mb-6"
+              style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}
             >
               Professional Writing{" "}
               <span className="text-gradient">That Speaks for You</span>
@@ -105,23 +127,19 @@ export const Hero = () => {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link
-                  to="/contact"
-                  className="btn-primary flex items-center gap-2 group"
-                >
-                  Hire Me
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link
-                  to="/services"
-                  className="btn-outline flex items-center gap-2"
-                >
-                  View Services
-                </Link>
-              </motion.div>
+              <Link
+                to="/contact"
+                className="btn-primary flex items-center gap-2 group"
+              >
+                Hire Me
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link
+                to="/services"
+                className="btn-outline flex items-center gap-2"
+              >
+                View Services
+              </Link>
             </motion.div>
 
             {/* Stats */}
@@ -136,82 +154,17 @@ export const Hero = () => {
                 { value: "100%", label: "Client Satisfaction" },
                 { value: "5+", label: "Years Experience" },
               ].map((stat) => (
-                <motion.div
-                  key={stat.label}
-                  className="text-center lg:text-left"
-                  whileHover={{ scale: 1.05 }}
-                >
+                <div key={stat.label} className="text-center lg:text-left">
                   <div className="text-2xl md:text-3xl font-display font-bold text-foreground mb-1">
                     {stat.value}
                   </div>
                   <div className="text-sm text-foreground-muted">{stat.label}</div>
-                </motion.div>
+                </div>
               ))}
             </motion.div>
           </div>
-
-          {/* 3D Illustration */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, x: 50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative">
-              <motion.img
-                src={contentWriting3d}
-                alt="Professional content writing"
-                className="w-full max-w-lg mx-auto drop-shadow-2xl"
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
-              
-              {/* Floating Cards */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="absolute -right-4 top-1/4"
-              >
-                <motion.div
-                  className="bg-card/90 backdrop-blur-sm border border-border p-4 rounded-xl shadow-lg flex items-center gap-3"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <PenTool className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">Content Writing</div>
-                    <div className="text-xs text-foreground-muted">Premium Quality</div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="absolute -left-4 bottom-1/4"
-              >
-                <motion.div
-                  className="bg-card/90 backdrop-blur-sm border border-border p-4 rounded-xl shadow-lg flex items-center gap-3"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-accent" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">Resume Writing</div>
-                    <div className="text-xs text-foreground-muted">ATS-Optimized</div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Scroll Indicator */}
       <motion.div

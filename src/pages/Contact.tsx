@@ -8,6 +8,7 @@ import contact3d from "@/assets/3d-contact.png";
 
 const Contact = () => {
   const { toast } = useToast();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -77,18 +78,27 @@ const Contact = () => {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex justify-center"
             >
-              <motion.img
-                src={contact3d}
-                alt="Contact us"
-                className="w-full max-w-sm drop-shadow-2xl"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
+              <div className="relative w-full max-w-sm">
+                {/* Skeleton placeholder */}
+                {!imageLoaded && (
+                  <div className="lazy-skeleton w-full aspect-square rounded-2xl" />
+                )}
+                
+                <motion.img
+                  src={contact3d}
+                  alt="Contact us for professional writing services"
+                  onLoad={() => setImageLoaded(true)}
+                  initial={{ opacity: 0, y: 8, scale: 0.995 }}
+                  animate={imageLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="w-full drop-shadow-2xl"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -103,6 +113,7 @@ const Contact = () => {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
               className="lg:col-span-2 space-y-8"
             >
               <div>
@@ -119,10 +130,10 @@ const Contact = () => {
                 <motion.a
                   href="mailto:hello@writeelite.com"
                   whileHover={{ x: 5 }}
-                  className="flex items-center gap-4 group"
+                  className="flex items-center gap-4 group focus:outline-none focus:ring-2 focus:ring-primary rounded-xl p-2 -m-2"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                    <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+                    <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" aria-hidden="true" />
                   </div>
                   <div>
                     <div className="text-sm text-foreground-muted">Email</div>
@@ -135,10 +146,10 @@ const Contact = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ x: 5 }}
-                  className="flex items-center gap-4 group"
+                  className="flex items-center gap-4 group focus:outline-none focus:ring-2 focus:ring-primary rounded-xl p-2 -m-2"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center group-hover:bg-accent transition-colors duration-300">
-                    <MessageCircle className="w-6 h-6 text-accent group-hover:text-accent-foreground transition-colors duration-300" />
+                    <MessageCircle className="w-6 h-6 text-accent group-hover:text-accent-foreground transition-colors duration-300" aria-hidden="true" />
                   </div>
                   <div>
                     <div className="text-sm text-foreground-muted">WhatsApp</div>
@@ -151,7 +162,7 @@ const Contact = () => {
                   className="flex items-center gap-4"
                 >
                   <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-foreground-muted" />
+                    <MapPin className="w-6 h-6 text-foreground-muted" aria-hidden="true" />
                   </div>
                   <div>
                     <div className="text-sm text-foreground-muted">Location</div>
@@ -172,11 +183,12 @@ const Contact = () => {
                     <motion.a
                       key={social.label}
                       href={social.href}
+                      aria-label={social.label}
                       whileHover={{ y: -3, scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                      className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
                     >
-                      <social.icon className="w-5 h-5" />
+                      <social.icon className="w-5 h-5" aria-hidden="true" />
                     </motion.a>
                   ))}
                 </div>
@@ -188,6 +200,7 @@ const Contact = () => {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
               className="lg:col-span-3"
             >
               <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-sm">
@@ -274,11 +287,12 @@ const Contact = () => {
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full"
+                      aria-label="Sending message"
                     />
                   ) : (
                     <>
                       Send Message
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4 h-4" aria-hidden="true" />
                     </>
                   )}
                 </motion.button>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -6,7 +7,6 @@ import {
   Shield, 
   MessageSquare, 
   RefreshCw,
-  Award,
   Target,
   Heart
 } from "lucide-react";
@@ -46,6 +46,8 @@ const achievements = [
 ];
 
 const About = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <main className="min-h-screen bg-background overflow-x-hidden">
       <Header />
@@ -77,18 +79,27 @@ const About = () => {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex justify-center"
             >
-              <motion.img
-                src={about3d}
-                alt="About me"
-                className="w-full max-w-md drop-shadow-2xl"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
+              <div className="relative w-full max-w-md">
+                {/* Skeleton placeholder */}
+                {!imageLoaded && (
+                  <div className="lazy-skeleton w-full aspect-square rounded-2xl" />
+                )}
+                
+                <motion.img
+                  src={about3d}
+                  alt="Professional content writer with expertise in multiple writing formats"
+                  onLoad={() => setImageLoaded(true)}
+                  initial={{ opacity: 0, y: 8, scale: 0.995 }}
+                  animate={imageLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="w-full drop-shadow-2xl"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
@@ -152,10 +163,10 @@ const About = () => {
               {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.98 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
                   whileHover={{ y: -5 }}
                   className="bg-card border border-border rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-all duration-300"
                 >
@@ -183,7 +194,7 @@ const About = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
                   whileHover={{ y: -5 }}
                   className="bg-card border border-border rounded-2xl p-6 text-center group shadow-sm hover:shadow-md transition-all duration-300"
                 >
@@ -205,7 +216,7 @@ const About = () => {
             className="max-w-3xl mx-auto"
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-8 flex items-center gap-3 justify-center">
-              <Heart className="w-8 h-8 text-primary" />
+              <Heart className="w-8 h-8 text-primary" aria-hidden="true" />
               Key Achievements
             </h2>
             <div className="space-y-4">
@@ -215,10 +226,10 @@ const About = () => {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.1, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
                   className="flex items-start gap-4 p-4 bg-card border border-border rounded-xl"
                 >
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" aria-hidden="true" />
                   <p className="text-foreground-muted text-lg">{achievement}</p>
                 </motion.div>
               ))}
