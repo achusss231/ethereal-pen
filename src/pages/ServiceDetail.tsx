@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
@@ -18,9 +19,10 @@ import {
   ArrowLeft,
   Sparkles
 } from "lucide-react";
-import contentWritingHero from "@/assets/content-writing-hero.jpg";
-import creativeWriting from "@/assets/creative-writing.jpg";
-import digitalContent from "@/assets/digital-content.jpg";
+
+// Service-specific 3D illustrations (would be unique per service)
+import contentWriting3d from "@/assets/3d-content-writing.png";
+import services3d from "@/assets/3d-services.png";
 
 const servicesData: Record<string, {
   icon: typeof PenTool;
@@ -31,6 +33,8 @@ const servicesData: Record<string, {
   process: string[];
   deliveryTime: string;
   benefits: string[];
+  accentColor: string;
+  illustration: string;
 }> = {
   "content-writing": {
     icon: PenTool,
@@ -59,6 +63,8 @@ const servicesData: Record<string, {
       "Engage your audience",
       "Drive conversions",
     ],
+    accentColor: "primary",
+    illustration: contentWriting3d,
   },
   "web-development": {
     icon: Code,
@@ -87,6 +93,8 @@ const servicesData: Record<string, {
       "Increased conversions",
       "Scalable solutions",
     ],
+    accentColor: "accent",
+    illustration: services3d,
   },
   "digital-marketing": {
     icon: TrendingUp,
@@ -115,6 +123,8 @@ const servicesData: Record<string, {
       "Quality lead generation",
       "Measurable ROI",
     ],
+    accentColor: "primary",
+    illustration: services3d,
   },
   "branding": {
     icon: Palette,
@@ -143,6 +153,8 @@ const servicesData: Record<string, {
       "Stronger customer connection",
       "Competitive advantage",
     ],
+    accentColor: "accent",
+    illustration: services3d,
   },
   "seo": {
     icon: Search,
@@ -171,6 +183,8 @@ const servicesData: Record<string, {
       "Better user experience",
       "Long-term growth",
     ],
+    accentColor: "primary",
+    illustration: services3d,
   },
   "resume-writing": {
     icon: FileText,
@@ -199,6 +213,8 @@ const servicesData: Record<string, {
       "Highlight your strengths",
       "Land more interviews",
     ],
+    accentColor: "accent",
+    illustration: contentWriting3d,
   },
   "sop-writing": {
     icon: GraduationCap,
@@ -227,6 +243,8 @@ const servicesData: Record<string, {
       "Higher acceptance rates",
       "Stand out from applicants",
     ],
+    accentColor: "primary",
+    illustration: contentWriting3d,
   },
   "copywriting": {
     icon: Megaphone,
@@ -255,12 +273,15 @@ const servicesData: Record<string, {
       "Effective CTAs",
       "Measurable results",
     ],
+    accentColor: "accent",
+    illustration: contentWriting3d,
   },
 };
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const service = slug ? servicesData[slug] : null;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   if (!service) {
     return (
@@ -291,77 +312,90 @@ const ServiceDetail = () => {
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
-        {/* Decorative Image */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 0.12, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 hidden xl:block"
-        >
-          <img 
-            src={slug?.includes('content') || slug?.includes('copywriting') || slug?.includes('sop') ? contentWritingHero : slug?.includes('digital') || slug?.includes('seo') ? digitalContent : creativeWriting} 
-            alt="" 
-            className="w-full h-full object-cover rounded-full blur-sm" 
-          />
-        </motion.div>
-        
         <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Link 
-              to="/services" 
-              className="inline-flex items-center gap-2 text-foreground-muted hover:text-primary transition-colors mb-8 group"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Services
-            </Link>
-            
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Premium Service</span>
+              <Link 
+                to="/services" 
+                className="inline-flex items-center gap-2 text-foreground-muted hover:text-primary transition-colors mb-8 group focus:outline-none focus:text-primary"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
+                Back to Services
+              </Link>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+              >
+                <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
+                <span className="text-sm font-medium text-primary">Premium Service</span>
+              </motion.div>
+              
+              <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
+                <motion.div 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center flex-shrink-0 shadow-lg"
+                >
+                  <Icon className="w-10 h-10 text-primary-foreground" aria-hidden="true" />
+                </motion.div>
+                <div>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-4 leading-tight">
+                    {service.title}
+                  </h1>
+                  <p className="text-lg md:text-xl text-foreground-muted leading-relaxed max-w-2xl">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
             </motion.div>
             
-            <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center flex-shrink-0 shadow-lg"
-              >
-                <Icon className="w-10 h-10 text-primary-foreground" />
-              </motion.div>
-              <div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-4 leading-tight">
-                  {service.title}
-                </h1>
-                <p className="text-lg md:text-xl text-foreground-muted leading-relaxed max-w-2xl">
-                  {service.description}
-                </p>
+            {/* Service-specific illustration */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center"
+            >
+              <div className="relative w-full max-w-md">
+                {!imageLoaded && (
+                  <div className="lazy-skeleton w-full aspect-square rounded-2xl" />
+                )}
+                
+                <motion.img
+                  src={service.illustration}
+                  alt={`${service.title} illustration`}
+                  onLoad={() => setImageLoaded(true)}
+                  initial={{ opacity: 0, y: 8, scale: 0.995 }}
+                  animate={imageLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
+                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="w-full drop-shadow-2xl"
+                />
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Content Section */}
+      {/* Content Section - Problem → Solution → Process → Benefits → CTA */}
       <section className="section-padding">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-12">
-              {/* Description */}
+            <div className="lg:col-span-2 space-y-16">
+              {/* Overview / Problem + Solution */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
               >
                 <h2 className="text-2xl font-display font-bold text-foreground mb-4">Overview</h2>
                 <p className="text-foreground-muted leading-relaxed text-lg">
@@ -369,11 +403,12 @@ const ServiceDetail = () => {
                 </p>
               </motion.div>
 
-              {/* Features */}
+              {/* Features / What's Included */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
               >
                 <h2 className="text-2xl font-display font-bold text-foreground mb-6">What's Included</h2>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -383,10 +418,10 @@ const ServiceDetail = () => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ delay: index * 0.08, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
                       className="flex items-center gap-3"
                     >
-                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" aria-hidden="true" />
                       <span className="text-foreground-muted">{feature}</span>
                     </motion.div>
                   ))}
@@ -395,9 +430,10 @@ const ServiceDetail = () => {
 
               {/* Process */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
               >
                 <h2 className="text-2xl font-display font-bold text-foreground mb-6">My Process</h2>
                 <div className="space-y-4">
@@ -407,7 +443,7 @@ const ServiceDetail = () => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ delay: index * 0.08, duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
                       className="flex gap-4"
                     >
                       <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-primary-foreground font-semibold text-sm">
@@ -427,13 +463,14 @@ const ServiceDetail = () => {
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="glass-card p-6 sticky top-32"
+                transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                className="bg-card border border-border rounded-2xl p-6 sticky top-32 shadow-sm"
               >
                 <h3 className="text-xl font-display font-semibold text-foreground mb-6">Quick Info</h3>
                 
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-primary" />
+                    <Clock className="w-5 h-5 text-primary" aria-hidden="true" />
                     <div>
                       <div className="text-sm text-foreground-muted">Delivery Time</div>
                       <div className="font-medium text-foreground">{service.deliveryTime}</div>
@@ -446,7 +483,7 @@ const ServiceDetail = () => {
                   <div className="space-y-2">
                     {service.benefits.map((benefit) => (
                       <div key={benefit} className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-primary" />
+                        <Star className="w-4 h-4 text-primary" aria-hidden="true" />
                         <span className="text-sm text-foreground">{benefit}</span>
                       </div>
                     ))}
@@ -455,10 +492,10 @@ const ServiceDetail = () => {
 
                 <Link
                   to="/contact"
-                  className="btn-primary w-full flex items-center justify-center gap-2"
+                  className="w-full btn-primary flex items-center justify-center gap-2"
                 >
                   Get Started
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </motion.div>
             </div>

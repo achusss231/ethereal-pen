@@ -95,15 +95,18 @@ export const Header = () => {
                       <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? "rotate-180" : ""}`} />
                     </Link>
                     
-                    {/* Clean Dropdown Menu */}
+                    {/* Clean Dropdown Menu - No glassmorphism */}
                     <AnimatePresence>
                       {openDropdown === item.name && (
                         <motion.div
-                          initial={{ opacity: 0, y: 10 }}
+                          initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 5 }}
+                          exit={{ opacity: 0, y: 4 }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="absolute top-full left-0 mt-2 w-56 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50"
+                          className="absolute top-full left-0 mt-2 w-56 bg-card rounded-lg border border-border overflow-hidden z-50"
+                          style={{ boxShadow: "0 4px 20px hsl(220 20% 15% / 0.08)" }}
+                          role="menu"
+                          aria-orientation="vertical"
                         >
                           <div className="py-2">
                             {item.subItems?.map((subItem, subIndex) => (
@@ -115,15 +118,17 @@ export const Header = () => {
                               >
                                 <Link
                                   to={subItem.href}
-                                  className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all duration-200"
+                                  role="menuitem"
+                                  className="block px-4 py-3 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all duration-200 border-l-3 border-transparent hover:border-l-primary focus:outline-none focus:bg-primary/5 focus:text-primary"
+                                  style={{ borderLeftWidth: "3px" }}
                                 >
                                   {subItem.name}
                                 </Link>
                               </motion.div>
                             ))}
                           </div>
-                          <div className="px-4 py-3 bg-muted/50 border-t border-border">
-                            <Link to="/services" className="text-xs font-medium text-primary hover:underline">
+                          <div className="px-4 py-3 bg-muted/30 border-t border-border">
+                            <Link to="/services" className="text-xs font-medium text-primary hover:underline focus:outline-none focus:underline">
                               View all services →
                             </Link>
                           </div>

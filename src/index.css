@@ -157,6 +157,61 @@
 }
 
 @layer components {
+  /* Lazy Image Loading */
+  .lazy-skeleton {
+    background: linear-gradient(90deg, hsl(var(--muted)) 0%, hsl(var(--background-secondary)) 50%, hsl(var(--muted)) 100%);
+    min-height: 260px;
+    background-size: 200% 100%;
+    animation: shimmer 1.2s linear infinite;
+  }
+
+  .page-image {
+    will-change: opacity, transform;
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .page-image.loaded {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Hero Illustration */
+  .hero-illustration {
+    opacity: 0;
+    transform: translateX(-24px) scale(0.995);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .hero-illustration.loaded {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  /* Reveal Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   /* Glass Card */
   .glass-card {
     @apply bg-card/70 backdrop-blur-xl border border-white/30 rounded-2xl;
@@ -175,8 +230,11 @@
 
   /* Premium Button */
   .btn-primary {
-    @apply bg-primary text-primary-foreground px-8 py-4 rounded-full font-medium
-           transition-all duration-300 ease-out hover:shadow-glow relative overflow-hidden;
+    @apply bg-primary text-primary-foreground px-8 py-4 rounded-lg font-medium
+           transition-all duration-200 ease-out hover:shadow-glow relative overflow-hidden;
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .btn-primary::before {
@@ -196,13 +254,22 @@
 
   .btn-primary:hover {
     background: var(--gradient-gold);
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px hsl(var(--primary) / 0.2);
   }
 
   .btn-outline {
-    @apply border-2 border-foreground/20 text-foreground px-8 py-4 rounded-full font-medium
-           transition-all duration-300 ease-out hover:border-primary hover:text-primary
+    @apply border-2 border-foreground/20 text-foreground px-8 py-4 rounded-lg font-medium
+           transition-all duration-200 ease-out hover:border-primary hover:text-primary
            hover:bg-primary/5;
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .btn-outline:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px hsl(var(--foreground) / 0.08);
   }
 
   /* Section Styling */
@@ -211,25 +278,26 @@
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl font-display font-semibold;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   .section-subtitle {
     @apply text-lg md:text-xl text-muted-foreground max-w-2xl;
   }
 
-  /* Floating Elements */
+  /* Floating Elements - Removed animated decorative elements */
   .floating {
-    animation: float 6s ease-in-out infinite;
+    animation: none;
   }
 
   .floating-slow {
-    animation: float 8s ease-in-out infinite;
+    animation: none;
   }
 
   .floating-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: -3s;
+    animation: none;
   }
 
   /* Parallax */
@@ -267,6 +335,22 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+
+  /* Clean Dropdown */
+  .dropdown-menu {
+    @apply bg-card rounded-lg shadow-lg border border-border overflow-hidden;
+    box-shadow: 0 4px 20px hsl(var(--foreground) / 0.08);
+  }
+
+  .dropdown-item {
+    @apply block px-4 py-3 text-sm text-foreground/80 transition-all duration-200;
+    border-left: 3px solid transparent;
+  }
+
+  .dropdown-item:hover {
+    @apply bg-primary/5 text-primary;
+    border-left-color: hsl(var(--primary));
   }
 }
 
