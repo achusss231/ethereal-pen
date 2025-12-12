@@ -10,14 +10,14 @@ const navItems = [
     href: "/services",
     hasDropdown: true,
     subItems: [
-      { name: "Content Writing", href: "/services/content-writing", icon: "✍️" },
-      { name: "Web Development", href: "/services/web-development", icon: "💻" },
-      { name: "Digital Marketing", href: "/services/digital-marketing", icon: "📈" },
-      { name: "Branding", href: "/services/branding", icon: "🎨" },
-      { name: "SEO", href: "/services/seo", icon: "🔍" },
-      { name: "Resume Writing", href: "/services/resume-writing", icon: "📄" },
-      { name: "SOP Writing", href: "/services/sop-writing", icon: "📝" },
-      { name: "Copywriting", href: "/services/copywriting", icon: "💡" },
+      { name: "Content Writing", href: "/services/content-writing" },
+      { name: "Web Development", href: "/services/web-development" },
+      { name: "Digital Marketing", href: "/services/digital-marketing" },
+      { name: "Branding", href: "/services/branding" },
+      { name: "SEO", href: "/services/seo" },
+      { name: "Resume Writing", href: "/services/resume-writing" },
+      { name: "SOP Writing", href: "/services/sop-writing" },
+      { name: "Copywriting", href: "/services/copywriting" },
     ]
   },
   { name: "About", href: "/about" },
@@ -51,7 +51,7 @@ export const Header = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-xl shadow-lg py-3"
+          ? "bg-background/98 shadow-md py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -95,38 +95,34 @@ export const Header = () => {
                       <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? "rotate-180" : ""}`} />
                     </Link>
                     
-                    {/* Premium Dropdown Menu */}
+                    {/* Clean Dropdown Menu */}
                     <AnimatePresence>
                       {openDropdown === item.name && (
                         <motion.div
-                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="absolute top-full left-0 mt-3 w-72 bg-background/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/30 overflow-hidden z-50"
-                          style={{ boxShadow: "0 25px 80px -12px rgba(0, 0, 0, 0.15)" }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="absolute top-full left-0 mt-2 w-56 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50"
                         >
-                          <div className="p-3">
-                            <div className="grid gap-1">
-                              {item.subItems?.map((subItem, subIndex) => (
-                                <motion.div
-                                  key={subItem.name}
-                                  initial={{ opacity: 0, x: -15 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: subIndex * 0.04, duration: 0.2 }}
+                          <div className="py-2">
+                            {item.subItems?.map((subItem, subIndex) => (
+                              <motion.div
+                                key={subItem.name}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: subIndex * 0.03, duration: 0.15 }}
+                              >
+                                <Link
+                                  to={subItem.href}
+                                  className="block px-4 py-2.5 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 transition-all duration-200"
                                 >
-                                  <Link
-                                    to={subItem.href}
-                                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-foreground/80 hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group"
-                                  >
-                                    <span className="text-lg opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300">{subItem.icon}</span>
-                                    <span className="font-medium">{subItem.name}</span>
-                                  </Link>
-                                </motion.div>
-                              ))}
-                            </div>
+                                  {subItem.name}
+                                </Link>
+                              </motion.div>
+                            ))}
                           </div>
-                          <div className="px-4 py-3 bg-gradient-to-r from-primary/5 to-transparent border-t border-border/20">
+                          <div className="px-4 py-3 bg-muted/50 border-t border-border">
                             <Link to="/services" className="text-xs font-medium text-primary hover:underline">
                               View all services →
                             </Link>
@@ -155,7 +151,7 @@ export const Header = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               to="/contact"
-              className="hidden lg:block btn-primary text-sm py-3 px-7 shadow-md hover:shadow-lg"
+              className="hidden lg:block btn-primary text-sm py-3 px-7"
             >
               Get Started
             </Link>
@@ -179,7 +175,7 @@ export const Header = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-background/98 backdrop-blur-xl border-t border-border"
+            className="lg:hidden bg-background border-t border-border"
           >
             <ul className="container mx-auto px-6 py-6 space-y-1">
               {navItems.map((item, index) => (

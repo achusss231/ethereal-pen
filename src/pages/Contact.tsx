@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, MessageCircle, Linkedin, Instagram, Phone } from "lucide-react";
+import { Send, Mail, MapPin, MessageCircle, Linkedin, Instagram } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import contact3d from "@/assets/3d-contact.png";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -58,22 +59,38 @@ const Contact = () => {
         </div>
         
         <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="inline-block text-primary font-medium text-sm tracking-wider uppercase mb-4">
-              Get In Touch
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
-              Let's <span className="text-gradient">Work Together</span>
-            </h1>
-            <p className="text-lg md:text-xl text-foreground-muted leading-relaxed">
-              Ready to elevate your writing? Get in touch and let's discuss your project.
-            </p>
-          </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="inline-block text-primary font-medium text-sm tracking-wider uppercase mb-4">
+                Get In Touch
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
+                Let's <span className="text-gradient">Work Together</span>
+              </h1>
+              <p className="text-lg md:text-xl text-foreground-muted leading-relaxed">
+                Ready to elevate your writing? Get in touch and let's discuss your project.
+              </p>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center"
+            >
+              <motion.img
+                src={contact3d}
+                alt="Contact us"
+                className="w-full max-w-sm drop-shadow-2xl"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -85,7 +102,7 @@ const Contact = () => {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               className="lg:col-span-2 space-y-8"
             >
               <div>
@@ -170,10 +187,10 @@ const Contact = () => {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               className="lg:col-span-3"
             >
-              <form onSubmit={handleSubmit} className="glass-card p-8 md:p-10">
+              <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-sm">
                 <div className="grid sm:grid-cols-2 gap-6 mb-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">

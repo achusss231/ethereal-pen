@@ -14,8 +14,7 @@ import {
   ArrowRight,
   Sparkles
 } from "lucide-react";
-import creativeWriting from "@/assets/creative-writing.jpg";
-import digitalContent from "@/assets/digital-content.jpg";
+import services3d from "@/assets/3d-services.png";
 
 const services = [
   {
@@ -88,48 +87,46 @@ const Services = () => {
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
-        {/* Decorative Images */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 0.15, x: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 hidden lg:block"
-        >
-          <img src={creativeWriting} alt="" className="w-full h-full object-cover rounded-full blur-sm" />
-        </motion.div>
-        <motion.div 
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 0.15, x: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 hidden lg:block"
-        >
-          <img src={digitalContent} alt="" className="w-full h-full object-cover rounded-full blur-sm" />
-        </motion.div>
-        
         <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto"
-          >
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">What I Offer</span>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
+              >
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">What I Offer</span>
+              </motion.div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
+                Premium <span className="text-gradient">Services</span>
+              </h1>
+              <p className="text-lg md:text-xl text-foreground-muted leading-relaxed">
+                From content creation to digital solutions, I deliver exceptional services 
+                that elevate your brand and achieve your goals.
+              </p>
             </motion.div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 leading-tight">
-              Premium <span className="text-gradient">Services</span>
-            </h1>
-            <p className="text-lg md:text-xl text-foreground-muted leading-relaxed">
-              From content creation to digital solutions, I deliver exceptional services 
-              that elevate your brand and achieve your goals.
-            </p>
-          </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="flex justify-center"
+            >
+              <motion.img
+                src={services3d}
+                alt="Services"
+                className="w-full max-w-md drop-shadow-2xl"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -142,13 +139,13 @@ const Services = () => {
                 key={service.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
               >
                 <Link to={`/services/${service.slug}`}>
                   <motion.div
                     whileHover={{ y: -8 }}
-                    className="glass-card-hover p-6 h-full group cursor-pointer"
+                    className="bg-card border border-border rounded-2xl p-6 h-full group cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300"
                   >
                     <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary transition-all duration-300">
                       <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
