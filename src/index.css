@@ -157,12 +157,20 @@
 }
 
 @layer components {
-  /* Lazy Image Loading */
+  /* Lazy Image Loading - Optimized */
   .lazy-skeleton {
-    background: linear-gradient(90deg, hsl(var(--muted)) 0%, hsl(var(--background-secondary)) 50%, hsl(var(--muted)) 100%);
-    min-height: 260px;
-    background-size: 200% 100%;
-    animation: shimmer 1.2s linear infinite;
+    background: linear-gradient(
+      90deg, 
+      hsl(var(--muted)) 0%, 
+      hsl(var(--background-secondary)) 30%,
+      hsl(var(--muted) / 0.8) 50%, 
+      hsl(var(--background-secondary)) 70%,
+      hsl(var(--muted)) 100%
+    );
+    min-height: 200px;
+    background-size: 300% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: inherit;
   }
 
   .page-image {
@@ -175,6 +183,19 @@
   .page-image.loaded {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+  
+  /* Image Blend Styles */
+  .image-container-blend {
+    position: relative;
+  }
+  
+  .image-container-blend::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, hsl(var(--background)) 100%);
+    pointer-events: none;
   }
 
   /* Hero Illustration */
@@ -443,15 +464,42 @@
   opacity: 1;
 }
 
-/* Blend Image */
+/* Blend Image - Enhanced */
 .blend-image {
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .blend-image-radial {
-  mask-image: radial-gradient(ellipse 80% 80% at center, black 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at center, black 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 85% at center, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 85% at center, black 40%, transparent 95%);
+}
+
+.blend-image-soft {
+  mask-image: linear-gradient(to bottom, black 80%, rgba(0,0,0,0.5) 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, rgba(0,0,0,0.5) 90%, transparent 100%);
+}
+
+/* Image Glow Effect */
+.image-glow {
+  filter: drop-shadow(0 20px 40px hsl(var(--primary) / 0.15));
+}
+
+/* Floating Image Container */
+.floating-image-container {
+  position: relative;
+}
+
+.floating-image-container::before {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: 10%;
+  right: 10%;
+  height: 30%;
+  background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.1) 0%, transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
 }
 
 /* Smooth Scrollbar */
