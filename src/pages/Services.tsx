@@ -131,13 +131,15 @@ const Services = () => {
             </div>
             
             <div className="flex justify-center">
-              <div className="relative w-full max-w-md">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 blur-3xl rounded-full" />
+              <div className="relative w-full max-w-md floating-image-container">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 blur-3xl rounded-full scale-90" />
                 <LazyImage
                   src={services3d}
                   alt="Professional writing and digital services"
-                  className="w-full drop-shadow-2xl blend-image-radial relative z-10"
+                  className="w-full relative z-10 image-glow"
+                  containerClassName="w-full"
                   priority
+                  blend="radial"
                 />
               </div>
             </div>

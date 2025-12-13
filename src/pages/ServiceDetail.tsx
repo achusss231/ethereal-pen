@@ -463,14 +463,16 @@ const ServiceDetail = () => {
               transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
               className="flex justify-center lg:justify-end"
             >
-              <div className="relative w-full max-w-lg">
+              <div className="relative w-full max-w-lg floating-image-container">
                 {/* Glow Effect Behind Image */}
-                <div className={`absolute inset-0 ${service.gradientFrom} blur-3xl opacity-50 rounded-full`} />
+                <div className={`absolute inset-0 ${service.gradientFrom} blur-3xl opacity-40 rounded-full scale-90`} />
                 <LazyImage
                   src={service.illustration}
                   alt={`${service.title} illustration`}
-                  className="w-full relative z-10 drop-shadow-2xl blend-image-radial"
+                  className="w-full relative z-10 image-glow"
+                  containerClassName="w-full"
                   priority
+                  blend="radial"
                 />
               </div>
             </motion.div>

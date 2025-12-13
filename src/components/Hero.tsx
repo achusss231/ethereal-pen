@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, PenTool, FileText } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { LazyImage } from "@/components/LazyImage";
 import hero3dPencil from "@/assets/hero-3d-pencil.png";
 
 export const Hero = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
   return (
     <section
       id="home"
@@ -31,20 +29,14 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative order-2 lg:order-1 flex justify-center lg:justify-start"
           >
-            <div className="relative w-full max-w-lg">
-              {/* Skeleton placeholder */}
-              {!imageLoaded && (
-                <div className="lazy-skeleton w-full aspect-[16/10] rounded-2xl" />
-              )}
-              
-              <motion.img
+            <div className="relative w-full max-w-lg floating-image-container">
+              <LazyImage
                 src={hero3dPencil}
                 alt="Professional content writing - 3D illustration of creative writing"
-                onLoad={() => setImageLoaded(true)}
-                initial={{ opacity: 0, x: -24, scale: 0.995 }}
-                animate={imageLoaded ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -24, scale: 0.995 }}
-                transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                className="w-full drop-shadow-2xl"
+                priority
+                blend="none"
+                className="w-full drop-shadow-2xl image-glow"
+                containerClassName="w-full"
               />
 
               {/* Floating Cards - Minimal, no animated circles */}
