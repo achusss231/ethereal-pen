@@ -83,17 +83,19 @@ export const Header = () => {
               >
                 {item.hasDropdown ? (
                   <div className="relative">
-                    <Link
-                      to={item.href}
+                    <button
+                      type="button"
                       className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                         isActive(item.href)
                           ? "text-primary bg-primary/5"
                           : "text-foreground/70 hover:text-primary hover:bg-primary/5"
                       }`}
+                      aria-expanded={openDropdown === item.name}
+                      aria-haspopup="true"
                     >
                       {item.name}
                       <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${openDropdown === item.name ? "rotate-180" : ""}`} />
-                    </Link>
+                    </button>
                     
                     {/* Clean Dropdown Menu - No glassmorphism */}
                     <AnimatePresence>

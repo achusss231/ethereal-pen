@@ -7,6 +7,7 @@ interface LazyImageProps {
   className?: string;
   containerClassName?: string;
   priority?: boolean;
+  blurDataURL?: string;
 }
 
 export const LazyImage = ({ 
@@ -14,14 +15,21 @@ export const LazyImage = ({
   alt, 
   className = "", 
   containerClassName = "",
-  priority = false 
+  priority = false,
+  blurDataURL
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
+  const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (priority) return;
+    if (priority) {
+      // Preload priority images
+      const img = new Image();
+      img.src = src;
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,7 +38,7 @@ export const LazyImage = ({
           observer.disconnect();
         }
       },
-      { rootMargin: "100px" }
+      { rootMargin: "200px" }
     );
 
     if (imgRef.current) {
@@ -38,13 +46,21 @@ export const LazyImage = ({
     }
 
     return () => observer.disconnect();
-  }, [priority]);
+  }, [priority, src]);
 
   return (
     <div ref={imgRef} className={`relative overflow-hidden ${containerClassName}`}>
-      {/* Skeleton placeholder */}
-      {!isLoaded && (
-        <div className="lazy-skeleton absolute inset-0 rounded-inherit" />
+      {/* Skeleton placeholder with blur effect */}
+      {!isLoaded && !hasError && (
+        <div 
+          className="lazy-skeleton absolute inset-0 rounded-inherit"
+          style={blurDataURL ? {
+            backgroundImage: `url(${blurDataURL})`,
+            backgroundSize: 'cover',
+            filter: 'blur(10px)',
+            transform: 'scale(1.1)'
+          } : undefined}
+        />
       )}
       
       {/* Actual image */}
@@ -53,7 +69,9 @@ export const LazyImage = ({
           src={src}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
+          decoding="async"
           onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
           initial={{ opacity: 0, y: 8, scale: 0.995 }}
           animate={isLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { LazyImage } from "@/components/LazyImage";
 import { Link } from "react-router-dom";
 import { 
   PenTool, 
@@ -85,14 +86,24 @@ const services = [
 ];
 
 const Services = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsPageLoaded(true);
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main className="min-h-screen bg-background overflow-x-hidden">
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-background-secondary to-background relative overflow-hidden">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={isPageLoaded ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        className="pt-32 pb-20 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-background-secondary to-background relative overflow-hidden"
+      >
         <div className="absolute inset-0">
           <div className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
@@ -100,14 +111,10 @@ const Services = () => {
         
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={isPageLoaded ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.2 }}
                 className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-5 py-2 mb-6"
               >
@@ -121,34 +128,22 @@ const Services = () => {
                 From content creation to digital solutions, I deliver exceptional services 
                 that elevate your brand and achieve your goals.
               </p>
-            </motion.div>
+            </div>
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex justify-center"
-            >
+            <div className="flex justify-center">
               <div className="relative w-full max-w-md">
-                {/* Skeleton placeholder */}
-                {!imageLoaded && (
-                  <div className="lazy-skeleton w-full aspect-square rounded-2xl" />
-                )}
-                
-                <motion.img
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 blur-3xl rounded-full" />
+                <LazyImage
                   src={services3d}
                   alt="Professional writing and digital services"
-                  onLoad={() => setImageLoaded(true)}
-                  initial={{ opacity: 0, y: 8, scale: 0.995 }}
-                  animate={imageLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
-                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="w-full drop-shadow-2xl"
+                  className="w-full drop-shadow-2xl blend-image-radial relative z-10"
+                  priority
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Services Grid */}
       <section className="section-padding">
