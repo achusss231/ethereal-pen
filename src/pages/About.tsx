@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { LazyImage } from "@/components/LazyImage";
 import { 
   Zap, 
   Shield, 
@@ -46,14 +47,24 @@ const achievements = [
 ];
 
 const About = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsPageLoaded(true);
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main className="min-h-screen bg-background overflow-x-hidden">
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-background-secondary to-background relative overflow-hidden">
+      <motion.section 
+        initial={{ opacity: 0, y: 50 }}
+        animate={isPageLoaded ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        className="pt-32 pb-20 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-background-secondary to-background relative overflow-hidden"
+      >
         <div className="absolute inset-0">
           <div className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
           <div className="absolute bottom-1/3 right-1/4 w-96 h-96 rounded-full bg-accent/5 blur-3xl" />
@@ -61,11 +72,7 @@ const About = () => {
         
         <div className="container mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+            <div>
               <span className="inline-block text-primary font-medium text-sm tracking-wider uppercase mb-4">
                 About Me
               </span>
@@ -76,34 +83,22 @@ const About = () => {
                 I am a professional writing specialist helping students, professionals, and 
                 businesses with clear, polished, high-quality writing that creates lasting impact.
               </p>
-            </motion.div>
+            </div>
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="flex justify-center"
-            >
+            <div className="flex justify-center">
               <div className="relative w-full max-w-md">
-                {/* Skeleton placeholder */}
-                {!imageLoaded && (
-                  <div className="lazy-skeleton w-full aspect-square rounded-2xl" />
-                )}
-                
-                <motion.img
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 blur-3xl rounded-full" />
+                <LazyImage
                   src={about3d}
                   alt="Professional content writer with expertise in multiple writing formats"
-                  onLoad={() => setImageLoaded(true)}
-                  initial={{ opacity: 0, y: 8, scale: 0.995 }}
-                  animate={imageLoaded ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 8, scale: 0.995 }}
-                  transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="w-full drop-shadow-2xl"
+                  className="w-full drop-shadow-2xl blend-image-radial relative z-10"
+                  priority
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Content */}
       <section className="section-padding">
